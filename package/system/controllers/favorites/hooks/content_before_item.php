@@ -6,11 +6,15 @@ class onFavoritesContentBeforeItem extends cmsAction {
 
     public function run($data){
 
-        if(!$this->cms_user->is_logged){
+        if(!$this->cms_user->is_logged) {
             return $data;
         }
 
         list($ctype, $item, $fields) = $data;
+
+        if(!$this->isShowInItem('content-'.$ctype['id'])) {
+            return $data;
+        }
 
         if(!isset($item['info_bar'])){ $item['info_bar'] = []; }
 

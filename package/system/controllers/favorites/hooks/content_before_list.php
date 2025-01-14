@@ -12,7 +12,9 @@ class onFavoritesContentBeforeList extends cmsAction {
 
         list($ctype, $items) = $data;
 
-        if (!$items) { return $data; }
+        if (!$items || !$this->isShowInList('content-'.$ctype['id'])) {
+            return $data;
+        }
 
         $this->cms_template->addTplJSName('favorites');
 

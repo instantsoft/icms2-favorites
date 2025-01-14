@@ -14,8 +14,7 @@
 Компонент установлен на [официальном сайте](https://instantcms.ru/).
 
 ## Требования ##
-* InstantCMS 2.14.2 и выше;
-* Для добавления комментариев в избранное - InstantCMS 2.15.0 и выше.
+* InstantCMS 2.15.0 и выше;
 
 ## Как установить ##
 
@@ -28,4 +27,4 @@
 ## Ресурсы
 
 * [InstantCMS](https://instantcms.ru/)
-* [Дополнения для InstantCMS](https://addons.instantcms.ru/)
+* [Страница дополнения](https://instantcms.ru/addons/icms2-favorites.html)

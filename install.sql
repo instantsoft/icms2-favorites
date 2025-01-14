@@ -11,3 +11,7 @@ CREATE TABLE `{#}favorites` (
 DELETE FROM `{#}menu_items` WHERE `url` = '{favorites:list}';
 INSERT INTO `{#}menu_items` (`menu_id`, `parent_id`, `is_enabled`, `title`, `url`, `ordering`, `options`) VALUES
 (2, 0, 1, 'Избранное', '{favorites:list}', 2, '---\ntarget: _self\nclass:\nicon: bookmark\n');
+
+DELETE FROM `{#}perms_rules` WHERE `controller` = 'favorites';
+INSERT INTO `{#}perms_rules` (`controller`, `name`, `type`, `options`, `show_for_guest_group`) VALUES
+('favorites', 'usage', 'flag', NULL, NULL);

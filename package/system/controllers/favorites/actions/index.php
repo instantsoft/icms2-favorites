@@ -4,7 +4,11 @@
  */
 class actionFavoritesIndex extends cmsAction {
 
-    public function run($target = ''){
+    public function run($target = '') {
+
+        if (!cmsUser::isAllowed($this->name, 'usage', true, true)) {
+            return cmsCore::error404();
+        }
 
         // субъект в формате controller_name-subject_id
         if($target && !preg_match('/^([a-z0-9\_]+\-{1}[0-9]+)$/', $target)){
@@ -12,12 +16,16 @@ class actionFavoritesIndex extends cmsAction {
         }
 
         $exists_targets = $this->model->getUserExistsTargets($this->cms_user->id);
-        if(!$exists_targets){
+
+        if (!$exists_targets) {
             return cmsCore::error404();
         }
 
         $menu_items = cmsEventsManager::hookAll('favorites_subjects', $exists_targets);
-        if (!$menu_items) { return cmsCore::error404(); }
+
+        if (!$menu_items) {
+            return cmsCore::error404();
+        }
 
         // субъект по умолчанию - первый из списка
         if(!$target){
@@ -31,7 +39,7 @@ class actionFavoritesIndex extends cmsAction {
                 $target = $first_subject[0];
 
                 // редиректим на правильный урл
-                $this->redirect(href_to($this->name, $target), 301);
+                return $this->redirect(href_to($this->name, $target), 301);
             }
 
         }
@@ -47,7 +55,10 @@ class actionFavoritesIndex extends cmsAction {
         $controller = cmsCore::getController($target_controller, $this->request);
 
         $list_html = $controller->runHook('favorites_subject', [$target_subject_id, $page_url]);
-        if (!$list_html) { return cmsCore::error404(); }
+
+        if (!$list_html) {
+            return cmsCore::error404();
+        }
 
         foreach ($menu_items as $menu_item) {
             $this->cms_template->addMenuItems('results_tabs', $menu_item);

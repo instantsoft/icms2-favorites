@@ -4,11 +4,9 @@
  */
 class onFavoritesCommentsBeforeList extends cmsAction {
 
-    const subject_id = 1;
-
     public function run($comments) {
 
-        if(!$this->cms_user->is_logged || !$comments){
+        if(!$this->cms_user->is_logged || !$comments || !$this->isShowInList('comments-'.favorites::DEFAULT_SUBJECT_ID)){
             return $comments;
         }
 
@@ -16,16 +14,16 @@ class onFavoritesCommentsBeforeList extends cmsAction {
 
         $is_in_favorites = $this->model->isInFavoritesList([
             'controller' => 'comments',
-            'subject_id' => self::subject_id,
+            'subject_id' => favorites::DEFAULT_SUBJECT_ID,
             'user_id'    => $this->cms_user->id
         ], array_keys($comments));
 
         foreach ($comments as $id => $post) {
 
             if(!empty($is_in_favorites[$id])){
-                $href = href_to($this->name, 'delete', ['comments', self::subject_id, $post['id']]);
+                $href = href_to($this->name, 'delete', ['comments', favorites::DEFAULT_SUBJECT_ID, $post['id']]);
             } else {
-                $href = href_to($this->name, 'save', ['comments', self::subject_id, $post['id']]);
+                $href = href_to($this->name, 'save', ['comments', favorites::DEFAULT_SUBJECT_ID, $post['id']]);
             }
 
             $comments[$id]['actions'][] = [

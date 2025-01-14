@@ -6,7 +6,7 @@ class actionFavoritesDelete extends cmsAction {
 
     public function run($controller_name, $subject_id, $item_id) {
 
-        if (!$this->request->isAjax()){
+        if (!$this->request->isAjax()) {
             return cmsCore::error404();
         }
 
@@ -26,6 +26,10 @@ class actionFavoritesDelete extends cmsAction {
         }
 
         if(!is_numeric($subject_id) || !is_numeric($item_id)){
+            return cmsCore::error404();
+        }
+
+        if (!$this->isShowInList($controller_name.'-'.$subject_id) && !$this->isShowInItem($controller_name.'-'.$subject_id)) {
             return cmsCore::error404();
         }
 

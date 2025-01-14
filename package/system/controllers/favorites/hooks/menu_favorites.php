@@ -4,16 +4,20 @@
  */
 class onFavoritesMenuFavorites extends cmsAction {
 
-    public function run($item){
+    public function run($item) {
 
-        if (!$this->cms_user->is_logged) { return false; }
+        if (!cmsUser::isAllowed($this->name, 'usage', true, true)) {
+            return false;
+        }
 
         $action = $item['action'];
 
-        if ($action == 'list'){
+        if ($action === 'list') {
 
             $counts = $this->model->getUserFavoritesCount($this->cms_user->id);
-            if (!$counts) { return false; }
+            if (!$counts) {
+                return false;
+            }
 
             return [
                 'url'     => href_to($this->name),

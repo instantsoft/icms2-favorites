@@ -6,11 +6,11 @@ class actionFavoritesSave extends cmsAction {
 
     public function run($controller_name, $subject_id, $item_id) {
 
-        if (!$this->request->isAjax()){
+        if (!$this->request->isAjax()) {
             return cmsCore::error404();
         }
 
-        if (!cmsForm::validateCSRFToken($this->request->get('csrf_token'))){
+        if (!cmsForm::validateCSRFToken($this->request->get('csrf_token'))) {
             return $this->cms_template->renderJSON([
                 'error'   => true,
                 'message' => 'csrf_token error'
@@ -26,6 +26,10 @@ class actionFavoritesSave extends cmsAction {
         }
 
         if(!is_numeric($subject_id) || !is_numeric($item_id)){
+            return cmsCore::error404();
+        }
+
+        if (!$this->isShowInList($controller_name.'-'.$subject_id) && !$this->isShowInItem($controller_name.'-'.$subject_id)) {
             return cmsCore::error404();
         }
 
